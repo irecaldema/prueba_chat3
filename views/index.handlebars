@@ -5,73 +5,75 @@
     <script>
         //var socket = io.connect('http://localhost:8000');
         var socket = io();
-        
-        socket.on('connect', function(){
+
+        socket.on('connect', function() {
             socket.emit('adduser', prompt("What's your name: "));
         });
-        
-        socket.on('updatechat', function (username, data) {
-            $('#conversation').append('<b>'+ username + ':</b> ' + data + '<br>');
+
+        socket.on('updatechat', function(username, data) {
+            $('#conversation').append('<b>' + username + ':</b> ' + data + '<br>');
         });
-        
-        
-        socket.on('updaterooms', function (rooms, current_room) {
+
+        socket.on('updaterooms', function(rooms, current_room) {
             $('#rooms').empty();
             $.each(rooms, function(key, value) {
-                if(value == current_room){
+                if (value == current_room) {
                     //$('#rooms').append('<div>' + value + '</div>');
-                    $('#rooms').append('<option value='+value+' selected >'+ value + '</option>');
+                    $('#rooms').append('<option value=' + value + ' selected >' + value + '</option>');
                 }
                 else {
                     //$('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
-                    $('#rooms').append('<option value='+value+'>'+ value + '</option>');
+                    $('#rooms').append('<option value=' + value + '>' + value + '</option>');
                 }
             });
         });
-        $( document ).ready(function() {
-            $('#rooms').change(function (){
-                console.log("on change"+this.value);
+        $(document).ready(function() {
+            $('#rooms').change(function() {
+                console.log("on change" + this.value);
                 switchRoom(this.value);
-                
+
             });
         });
-        
-        function switchRoom(room){
-            console.log("funcion switchRoom("+room+")");
+
+        function switchRoom(room) {
+            console.log("funcion switchRoom(" + room + ")");
             socket.emit('switchRoom', room);
         }
-        
-        $(function(){
-            $('#datasend').click( function() {
+
+        $(function() {
+            $('#datasend').click(function() {
                 var message = $('#data').val();
                 $('#data').val('');
                 socket.emit('sendchat', message);
             });
-        
+
             $('#data').keypress(function(e) {
-                if(e.which == 13) {
+                if (e.which == 13) {
                     $(this).blur();
                     $('#datasend').focus().click();
                 }
             });
-        
-            $('#roombutton').click(function(){
+
+            $('#roombutton').click(function() {
                 var roomname = $('#roomname').val();
-                if (roomname != null && roomname != ""){
+                if (roomname != null && roomname != "") {
                     socket.emit('create', roomname);
-                }else{
+                }
+                else {
                     alert("empty roomname");
                 }
             });
         });
     </script>
 </head>
+
 <body>
     <div style="float:left;width:100px;border-right:1px solid black;height:300px;padding:10px;overflow:scroll-y;">
         <b>ROOMS</b>
         <!--<div id="rooms"></div>-->
         <br/>
-        <select id="rooms" name="rooms"><select/>
+        <select id="rooms" name="rooms">
+            <select/>
     </div>
 
     <div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
@@ -80,9 +82,9 @@
         <input type="button" id="datasend" value="send" />
     </div>
 
-   <div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
-       <div id="room creation"></div>
-       <input id="roomname" style="width:200px;" />
+    <div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
+        <div id="room creation"></div>
+        <input id="roomname" style="width:200px;" />
         <input type="button" id="roombutton" value="create room" />
-   </div>
+    </div>
 </body>

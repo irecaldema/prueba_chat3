@@ -4,11 +4,11 @@
  * Home page.
  */
 exports.index = function(req, res) {
-  //var io = req.app.io;
   var fecha = new Date();
-  console.log("render "+fecha);
-  
-  res.render('index', {title: 'prueba extra'});
+  console.log("render " + fecha);
+  res.render('index', {
+    title: 'prueba extra'
+  });
 };
 
 exports.url = function(req, res) {
@@ -16,12 +16,13 @@ exports.url = function(req, res) {
   // http://chat-socket-io-zubiri.c9users.io/Lobby/hola
   var chat = req.params.chat;
   var msg = req.params.mensaje;
-  var io = req.app.io;
-  console.log("get "+chat+" "+msg);
-  var fecha = new Date();
-  io.sockets.on('connection', function(socket) {
-    socket.broadcast.to('Lobby').emit('updatechat', 'SERVER', msg+" prueba "+fecha);
-    //socket.broadcast.to(chat).emit('updatechat', 'SERVER', msg+" prueba "+fecha);
-    res.send('Dato guardado correctamente');
-  }); 
+  console.log("get " + chat + " " + msg + " prueba x");
+  //var fecha = new Date();
+  
+  var io = req.app.io;  
+  //io.sockets.in('Lobby').emit('updatechat', 'SERVER', msg);
+  io.sockets.in(chat).emit('updatechat', 'SERVER', msg);
+  
+  res.send('chat: ' + chat + " mensaje: " + msg);
+
 };
