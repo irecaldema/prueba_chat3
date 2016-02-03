@@ -17,7 +17,6 @@ exports.url = function(req, res) {
   var chat = req.params.chat;
   var msg = req.params.mensaje;
   console.log("get " + chat + " " + msg + " prueba x");
-  //var fecha = new Date();
   
   var io = req.app.io;  
   //io.sockets.in('Lobby').emit('updatechat', 'SERVER', msg);

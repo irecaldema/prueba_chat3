@@ -28,25 +28,16 @@ app.set('io', app.io);
 var usernames = {};
 
 var rooms = ['Lobby'];
-//var rooms = [];
 
 app.io.sockets.on('connection', function(socket) {
   socket.on('adduser', function(username) {
     socket.username = username;
     socket.room = 'Lobby';
-    //socket.room = username;
-    //en pruebas fail
-    //console.log("pruebas "+username);
-    //socket.emit('create', username);
-    //en pruebas
     usernames[username] = username;
     socket.join('Lobby');
-    //socket.join(username);
     socket.emit('updatechat', 'SERVER', 'you have connected to Lobby');
-    //socket.emit('updatechat', 'SERVER', 'you have connected to '+username);
     socket.broadcast.to('Lobby').emit('updatechat', 'SERVER', username + ' has connected to this room');
     socket.emit('updaterooms', rooms, 'Lobby');
-    //socket.emit('updaterooms', rooms, username);
   });
 
   socket.on('create', function(room) {
