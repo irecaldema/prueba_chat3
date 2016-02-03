@@ -27,7 +27,7 @@ app.set('io', app.io);
 
 var usernames = {};
 
-var rooms = ['Lobby'];
+var rooms = ['Lobby','privado','privado2'];
 
 app.io.sockets.on('connection', function(socket) {
   socket.on('adduser', function(username) {
