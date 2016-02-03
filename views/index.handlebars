@@ -20,14 +20,11 @@
             $.each(rooms, function(key, value) {
                 if(value == current_room){
                     //$('#rooms').append('<div>' + value + '</div>');
-                    //$('#rooms').append('<option value='+value+' onclick="switchRoom('+value+')>'+ value + '</option>');
                     $('#rooms').append('<option value='+value+' selected >'+ value + '</option>');
                 }
                 else {
                     //$('#rooms').append('<div><a href="#" onclick="switchRoom(\''+value+'\')">' + value + '</a></div>');
-                    //$('#rooms').append('<option value='+value+' onclick="switchRoom('+value+')>'+ value + '</option>');
                     $('#rooms').append('<option value='+value+'>'+ value + '</option>');
-                    //<option value={{_id}} >{{nombre}}</option>
                 }
             });
         });
@@ -59,9 +56,12 @@
             });
         
             $('#roombutton').click(function(){
-                var name = $('#roomname').val();
-                $('#roomname').val('');
-                socket.emit('create', name);
+                var roomname = $('#roomname').val();
+                if (roomname != null && roomname != ""){
+                    socket.emit('create', roomname);
+                }else{
+                    alert("empty roomname");
+                }
             });
         });
     </script>
@@ -71,13 +71,7 @@
         <b>ROOMS</b>
         <!--<div id="rooms"></div>-->
         <br/>
-        <form>
-            <!--<select id="rooms" name="rooms" onchange="switchRoom(this.value)">-->
-            <!--<select id="rooms" name="rooms" onclick="switchRoom(this.value)">-->
-            <select id="rooms" name="rooms">
-                <!--<option value="Lobby">Lobby</option>-->
-            </select>
-        </form>
+        <select id="rooms" name="rooms"><select/>
     </div>
 
     <div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">

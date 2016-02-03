@@ -13,6 +13,7 @@ exports.index = function(req, res) {
 
 exports.url = function(req, res) {
   // http://chat-socket-io-zubiri.c9users.io/chat/pruebas
+  // http://chat-socket-io-zubiri.c9users.io/Lobby/hola
   var chat = req.params.chat;
   var msg = req.params.mensaje;
   var io = req.app.io;
@@ -20,5 +21,7 @@ exports.url = function(req, res) {
   var fecha = new Date();
   io.sockets.on('connection', function(socket) {
     socket.broadcast.to('Lobby').emit('updatechat', 'SERVER', msg+" prueba "+fecha);
-  });  
+    //socket.broadcast.to(chat).emit('updatechat', 'SERVER', msg+" prueba "+fecha);
+    res.send('Dato guardado correctamente');
+  }); 
 };
